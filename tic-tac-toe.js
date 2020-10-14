@@ -33,7 +33,7 @@ function makeListener(box) {
             usedBox[parseInt(box.id) - 1] = true;
             console.log(usedBox);
             chosen++;
-            showWinner();
+            displayWinner();
         }
     });
 }
@@ -79,15 +79,17 @@ function  outcome(winner)  {    
     var  statusbar  =  document.getElementById("status");    
     if  (winner  !=  "draw")  {        
         stop();        
-        statusbar.classList.add("you've-won");        
+        statusbar.classList.add("you-won");        
         statusbar.textContent  =  `Congratulations! ${winner} is the Winner!`;    
     } 
-    else  {         statusbar.textContent  =  "It's was a draw.";     }
+    else  {        
+        statusbar.textContent  =  "It's was a draw."; 
+    }
 }
 
 //display to see the who's the winner
 
-function  showWinner()  {    
+function  displayWinner()  {    
     var  winner  =  anyWinner();    
     if  (chosen  ==  9  &&  winner  ==  "There's no winner")  {         outcome("It's a draw");
 
@@ -97,24 +99,45 @@ function  showWinner()  {    
 
 
 function  squareId(array)  {    
-    for  (var  i  =  0;  i  <  array.length;  i++)  {         array[i].id  =  `${i+1}`;     }
+    for  (var  i  =  0;  i  <  array.length;  i++)  
+    {         array[i].id  =  `${i+1}`;     }
 }
 
 
 // CODE FOR RESTARTING THE GAME
 function  reset(array)  {    
     var  button  =  document.querySelector("button");    
-    button.addEventListener("click",  function()  {         usedBox  =   [false,  false,  false,  false,  false,  false,  false,  false,  false];        
+    button.addEventListener("click",  function()  {        
+        usedBox  =   [false,  false,  false,  false,  false,  false,  false,  false,  false];        
         state  =   [            
             ["X"],             
             ["O"]        
         ];        
-        chosen  =  0;         var  statusDiv  =  document.getElementById("status");        
-        statusDiv.classList.remove("you've-won");        
-        statusDiv.textContent  =  "Move your mouse over a square and click to play an X or an O";         for  (var  i  =  0;  i  <  array.length;  i++)  {             var  box  =  array[i];             if  (box.textContent  ==  "X")  {                 box.textContent  =  " ";                
-                box.classList.remove("X");             } 
-            else  if  (box.textContent  ==  "O")  {                 box.textContent  =  " ";                
-                box.classList.remove("O");             }         }     })
+        chosen  =  0;        
+        var  statusDiv  =  document.getElementById("status");        
+        statusDiv.classList.remove("you-won");        
+        statusDiv.textContent  =  "Move your mouse over a square and click to play an X or an O";        
+        for  (var  i  =  0;  i  <  array.length;  i++)  {            
+            var  box  =  array[i];            
+            if  (box.textContent  ==  "X")  {                
+                box.textContent  =  " ";                
+                box.classList.remove("X");            
+            } 
+            else  if  (box.textContent  ==  "O")  {                
+                box.textContent  =  " ";                
+                box.classList.remove("O");            
+            }        
+        }    
+    })
+}
+//CODE FOR DISALLOWING CHEATING
+
+function   stop()   {        
+    for   (var i = 0;  i < usedBox.length; i++) {         
+        if  (usedBox[i] == false) {             
+            usedBox[i]   =   true;         
+        }     
+    }
 }
 
 
