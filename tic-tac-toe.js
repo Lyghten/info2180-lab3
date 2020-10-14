@@ -33,13 +33,83 @@ function makeListener(box) {
             usedBox[parseInt(box.id) - 1] = true;
             console.log(usedBox);
             chosen++;
-            displayWinner();
+            showWinner();
         }
     });
 }
 
 
-
 function allListener(array) {
     array.forEach(makeListener);
 }
+
+
+function possiblewinner() {
+    var anywins = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8]
+    ];
+
+    const positions = this.positions;
+    winningCombinations.forEach((winningCombo) => {
+        const pos0InnerText = positions[winningCombo[0]].innerText;
+        const pos1InnerText = positions[winningCombo[1]].innerText;
+        const pos2InnerText = positions[winningCombo[2]].innerText;
+        const isWinningCombo = pos0InnerText !== '' &&
+            pos0InnerText === pos1InnerText && pos1InnerText === pos2InnerText;
+        if (isWinningCombo) {
+            winner = true;
+            winningCombo.forEach((index) => {
+                positions[index].className += ' winner';
+            })
+        }
+    });
+
+    return winner;
+}
+
+
+function  outcome(winner)  {    
+    var  statusbar  =  document.getElementById("status");    
+    if  (winner  !=  "draw")  {         stop();        
+        statusbar.classList.add("you've-won");        
+        statusbar.textContent  =  `Congratulations! ${winner} is the Winner!`;     } 
+    else  {         statusbar.textContent  =  "It's was a draw.";     }
+}
+
+//display to see the who's the winner
+
+function  showWinner()  {    
+    var  winner  =  anyWinner();    
+    if  (chosen  ==  9  &&  winner  ==  "There's no winner")  {         outcome("It's a draw");
+
+             } 
+    else  if  (chosen  >=  5  &&  winner  !=  "There's no winner")  {         outcome(winner);     }
+}
+
+
+function  squareId(array)  {    
+    for  (var  i  =  0;  i  <  array.length;  i++)  {         array[i].id  =  `${i+1}`;     }
+}
+
+
+
+
+function  stop()  {    
+    for  (var  i  =  0;  i  <  usedBox.length;  i++)  {         if  (usedBox[i]  ==  false)  {             usedBox[i]  =  true;         }     }
+}
+
+
+
+var state = [
+    ["X"],
+    ["0"]
+];
+var chosen = 0;
+var usedBox = [false, false, false, false, false, false, false, false, false];
