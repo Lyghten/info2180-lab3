@@ -1,116 +1,39 @@
-const tictactoe = new TicTacToe();
-tictactoe.start()
-
-function TicTacToe(){
-    const board = new Board();
-    const playerX = new PlayerX(board);
-    const playerO = new PlayerO(board);
-    let turn = 0;
-    
-    
-    this.start = function(){
-        const config = {childList: true};
-        const observer = new MutationObserver(() => takeTurn());
-        board.position.forEach((el) => observer.observe(el, config));
-        takeTurn();
+document.addEventListener('DOMContentLoaded', () => {
+    var squares = document.getElementById("board").querySelectorAll("div");
+    for (var i = 0; i < squares.length; i++) {
+        squares[i].className = "square";
     }
-    function takeTurn(){
-        if (board.chechForWinner()){
-            return;
+    allListener(squares);
+    squareId(squares);
+    reset(squares);
+});
+
+
+
+function makeListener(box) {
+    box.addEventListener("mouseover", function() {
+        box.classList.add("hover");
+    });
+
+    box.addEventListener("mouseout", function() {
+        box.classList.remove("hover");
+    });
+
+    box.addEventListener("click", function() {
+        if (usedBox[parseInt(box.id) - 1] == false) {
+            if (chosen % 2 == 0) {
+                box.classList.add("X");
+                box.textContent = "X";
+                state[0].push(box.id);
+            } else {
+                box.classList.add("O");
+                box.textContent = "O";
+                state[1].push(box.id);
+            }
+            usedBox[parseInt(box.id) - 1] = true;
+            console.log(usedBox);
+            chosen++;
+            displayWinner();
         }
-        
-        if (turn % 2 === 0){
-            playerX.takeTurn();
-        } else {
-            playerO.takeTurn();
-        }
-        
-        turn++;
-    }   
+    });
 }
-
-
-
-function Board (){
-    this.positions = Array.from (document.querySelectorAll('.col'));
-    
-    this.checkForWinner = function(){
-        
-        
-    }
-    
-}
-
-
-function PlayerX (board){
-    this.takeTurn = function(){
-        board.positions.forEach(el => el.addEventListener('click', handleTurnTaken));
-        
-    }
-    
-    function handleTurnTaken(event){
-        event.target.innerHTML = 'X';
-        board.positions.forEach(el => el.removeEventListener('click', handleTurnTaken));
-    }
-    
-}
-
-
-function PlayerO(board){
-    this.takeTurn = function(){
-        const availablePositions = board.positions.fiter((r) =>r.innerHTML === '');
-        const move = Math.floor(Math.random() * availablePositions.length);
-        availablePositions[move]. innerHTML = 'O';
-        
-    }
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
