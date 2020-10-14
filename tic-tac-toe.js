@@ -77,9 +77,11 @@ function possiblewinner() {
 
 function  outcome(winner)  {    
     var  statusbar  =  document.getElementById("status");    
-    if  (winner  !=  "draw")  {         stop();        
+    if  (winner  !=  "draw")  {        
+        stop();        
         statusbar.classList.add("you've-won");        
-        statusbar.textContent  =  `Congratulations! ${winner} is the Winner!`;     } 
+        statusbar.textContent  =  `Congratulations! ${winner} is the Winner!`;    
+    } 
     else  {         statusbar.textContent  =  "It's was a draw.";     }
 }
 
@@ -99,11 +101,22 @@ function  squareId(array)  {    
 }
 
 
-
-
-function  stop()  {    
-    for  (var  i  =  0;  i  <  usedBox.length;  i++)  {         if  (usedBox[i]  ==  false)  {             usedBox[i]  =  true;         }     }
+// CODE FOR RESTARTING THE GAME
+function  reset(array)  {    
+    var  button  =  document.querySelector("button");    
+    button.addEventListener("click",  function()  {         usedBox  =   [false,  false,  false,  false,  false,  false,  false,  false,  false];        
+        state  =   [            
+            ["X"],             
+            ["O"]        
+        ];        
+        chosen  =  0;         var  statusDiv  =  document.getElementById("status");        
+        statusDiv.classList.remove("you've-won");        
+        statusDiv.textContent  =  "Move your mouse over a square and click to play an X or an O";         for  (var  i  =  0;  i  <  array.length;  i++)  {             var  box  =  array[i];             if  (box.textContent  ==  "X")  {                 box.textContent  =  " ";                
+                box.classList.remove("X");             } 
+            else  if  (box.textContent  ==  "O")  {                 box.textContent  =  " ";                
+                box.classList.remove("O");             }         }     })
 }
+
 
 
 
